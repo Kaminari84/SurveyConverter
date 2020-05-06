@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>ER Bot</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->    
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui-theme-default.css" />-->
+
+    <!-- required for basic layout -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/botui.min.css') }}" />
+
+    <!-- default theme - you can create your own theme -->
+    <link rel="stylesheet" href="/static/stylesheets/botui-theme-custom.css" />
+
+
+    <style>
+        .botui-container {
+        	background-color: #ffffff;
+        	border: 0px solid #e1e1ff;
+        }
+        .botui-app-container {
+            width: 100%;
+            height: 500px;
+            margin: 0 auto;
+        }
+
+        .glyphicon.glyphicon-play {
+		    font-size: 20px;
+		    color: #33cc33;
+		}
+
+		.glyphicon.glyphicon-play-circle {
+		    font-size: 20px;
+		    color: #33cc33;
+		}
+
+		.glyphicon.glyphicon-stop {
+		    font-size: 20px;
+		    color: #ff5555;
+		}
+
+		.glyphicon.glyphicon-pause {
+		    font-size: 20px;
+		    color: #ff5555;
+		}
+
+		.glyphicon.glyphicon-pencil {
+		    font-size: 15px;
+		}
+
+		.glyphicon.glyphicon-pencil:hover {
+		    font-size: 15px;
+		    color: #007bff;
+		}
+
+		body::after{
+		    position:absolute; 
+		    width:0; 
+		    height:0; 
+		    overflow:hidden; 
+		    z-index:-1;
+		}
+
+		a.list-group-item {
+			color: #555;
+		}
+
+		a.list-group-item:hover {
+			z-index: 2;
+		    color: #fff;
+		    background-color: #007bff;
+		    border-color: #007bff;
+		}
+
+		a.list-group-item.selected {
+          z-index: 2;
+          color: #fff;
+          background-color: #ff7b00;
+          border-color: #ff7b00;
+      	}
+		
+		.botui-actions-buttons-button {
+			color: #222;
+			background-color: #dddddd;
+		}
+
+		.botui-actions-buttons-button:hover {
+			color: #fff;
+			background-color: #007bff;
+		}
+
+.botui-actions-buttons-button {
+		background: #ffffff;
+		border: 1.5px solid #E57F00; 
+		border-radius: 4px;
+		color: #E57F00;
+		font-family: Arial;
+		font-size:  18 pt;
+
+		}
+
+		.botui-actions-buttons-button:hover {
+				background: #E57F00;
+				border: 1.5px solid #E57F00; 
+				border-radius: 4px;
+				color: #ffffff;
+				font-family: Arial;
+				font-size: 18 pt;
+
+		}
+		.botui-message-content {
+			background: #E8E8E8;
+			border-radius: 5px;	
+			font-family: Arial;
+			color: #000000;
+			font-size: 18 pt;
+		}
+		.botui-message-content.human {
+			background: #2D60C3;
+			border-radius: 5px;	
+			font-family:  Arial;
+			font-size: 18 pt;
+			color: #ffffff;
+		  }
+
+		  .h4{
+		  	margin-top: 100px;
+		  	font-family: Arial;
+		  	font-size: 18px;
+		  	color: #000000;
+		  }
+		  button {
+				background: #F2F2F2;
+				border: 0.5px solid #B7B7B7; 
+				border-radius: 4px;
+				color: #00000;
+				font-family: Arial;
+				font-size:  18 pt;
+				padding: 5px 10px;
+		  }
+		  p{
+		  	font-family: Arial;
+			font-size:  14px;
+			color: #000000;
+			margin: 0 0 0;
+		  }
+
+		  /*Menu/First Row*/
+		  .bgcolor {
+		  	background-color: #F2F2F2;
+		  	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+		  	
+		  }
+		   /* padding */
+
+		  .classWithPad{
+		  	padding-left: 60px;
+			padding-top: 10px;
+
+		  }
+		  /* combo box */
+		  select {
+		  		background: #ffffff;
+		  		height: 20px;
+				border: 1px solid #727272; 
+				border-radius: 2px;
+				color: #434343;
+				font-family: Arial;
+				font-size:  14px;
+		  }
+
+		  label {
+
+		    display: inline-block;
+		    color: #434343;
+		    font-family: Arial;
+		    font-weight: normal;
+		  }
+
+		  /* SLider */
+		  input[type=range] {
+		  	-webkit-appearance: none;
+		    width: 97%;
+		    height: 5px;
+		    border-radius: 5px;   
+		    background: #d3d3d3;
+		    outline: none;
+		    opacity: 0.7;
+		    margin-right: auto;
+		    margin-left: auto;
+
+		    }	
+		    
+		    input[type=range]:hover {
+			 opacity: 1;
+			}
+
+			input[type=range]::-webkit-slider-thumb {
+			    -webkit-appearance: none;
+			    appearance: none;
+			    width: 20px;
+			    height: 20px;
+			    border-radius: 50%;
+			    background: #C4C4C4;
+			    cursor: pointer;
+
+			}
+
+			input[type=range]::-moz-range-thumb {
+			    width: 25px;
+			    height: 25px;
+			    border-radius: 50%;
+			    background: #4CAF50;
+			    cursor: pointer;
+			}
+        
+    </style>
+
+    <script>
+    	var dialogue_position = 0;
+    	var dialogue = [ 
+    					/*0*/ { text: {en: "Hello, I am an ER bot.", 
+    								  es: "Hola, soy un bot de ER."}, type: "Skip", delay: 3000 },
+    				 	
+    				 	/*1*/ { text: {en: "Let me ask you a bit about your finances. Do you have the resources " + 
+    				 					  "to pay for the very basics like food, housing, medical care, and heating?", 
+    				 				  es: "Déjame preguntarte un poco sobre tus finanzas. ¿Tiene los recursos para pagar " + 
+    				 				  	  "los conceptos básicos como comida, vivienda, atención médica y calefacción?"}, 
+    				 				  type: "Yes/No" },
+    				 	
+    				 	/*2*/ { text: {en: "Do you have a significant outstanding bills or debts?", 
+    				 				  es: "¿Tiene importantes cuentas pendientes o deudas pendientes?"}, type: "Yes/No" },
+    				 	
+    				 	/*3*/ { text: {en: "Let's talk a bit about your current employment...",
+    				 				  es: "Hablemos un poco sobre su empleo actual ..."}, type: "Skip", delay: 2000},
+    				 	
+    				 	/*4*/ { text: {en: "Do you want help finding or keeping work or a job?  "+
+    				 	" A - Yes, help finding work.  "+
+    				 	" B - Yes, help keeping work.  "+
+    				 	" C - I do not need or want help.  "+
+    				 	" D - Some other option.  "+
+    				 	" E - Yet another option.  "+
+    				 	" F - And the final choice now.",
+    				 				  es: "¿Desea ayuda para encontrar o conservar un trabajo o un trabajo?"}, type: "Options", 
+    				 			options: [ 
+    				 				{value: "Opt_1", text : "A" },
+    				 				{value: "Opt_2", text : "B" },
+    				 				{value: "Opt_3", text : "C" },
+    				 				{value: "Opt_4", text : "D" },
+    				 				{value: "Opt_5", text : "E" },
+    				 				{value: "Opt_6", text : "F" },
+    				 			] 
+    				 		  },
+    				 	/*4*/ { text: {en: "Multiple - Do you want help finding or keeping work or a job?",
+    				 				  es: "¿Desea ayuda para encontrar o conservar un trabajo o un trabajo?"}, type: "Options-multiple", 
+    				 			options: [ 
+    				 				{value: "Opt_1", text : "Yes, help finding work" },
+    				 				{value: "Opt_2", text : "Yes, help keeping work" },
+    				 				{value: "Opt_3", text : "I do not need or want help" },
+    				 				{value: "Opt_4", text : "Help 3" },
+    				 				{value: "Opt_5", text : "Help 4" } 
+    				 			] 
+    				 		  },
+    				 	/*5*/ { text: {en: "How much do you earn?.", 
+    				 				   es: "Ok, déjame preguntarte sobre tu educación y o entrenamiento ..."}, type: "Input", delay: 2000},
+    				 	/*5*/ { text: {en: "Ok, let me ask you about your education and or training...", 
+    				 				   es: "Ok, déjame preguntarte sobre tu educación y o entrenamiento ..."}, type: "Skip", delay: 2000},
+    				 	/*6*/ { text: {en: "Do you want help with school or training? For example, starting or "+ 
+    				 		  		  		"completing job training or getting a high school diploma, GED or equivalent?",
+    				 		  		   es: "¿Quieres ayuda con la escuela o el entrenamiento? Por ejemplo, comenzar "+
+    				 		  		   		" o completar la capacitación laboral o obtener un diploma de escuela secundaria, GED o equivalente?"}, type: "Yes/No"},
+    				 	/*4*/ { text: {en: "Multiple - Do you want help finding or keeping work or a job?",
+    				 				  es: "¿Desea ayuda para encontrar o conservar un trabajo o un trabajo?"}, type: "Options-multiple", 
+    				 			options: [ 
+    				 				{value: "Opt_1", text : "Yes, help finding work" },
+    				 				{value: "Opt_2", text : "Yes, help keeping work" },
+    				 				{value: "Opt_3", text : "I do not need or want help" },
+    				 				{value: "Opt_4", text : "Helping more" },
+    				 				{value: "Opt_5", text : "Help and more even" } 
+    				 			] 
+    				 		  },
+    				 	/*7*/ { text: {en: "Nice talking to you. We will try to help. Bye for now!",
+    				 				   es: "Encantado de hablar contigo. Trataremos de ayudar. ¡Adiós por ahora!"}, type: "Skip", delay: 5000}
+    				];
+
+    	$( document ).ready(function() {
+	    	console.log( "ready!" );
+
+	    	/*var element = document.createElement("span");
+  			element.classList.add("badge");
+  			element.classList.add("bg-red");
+		    element.appendChild(document.createTextNode("My text"));
+		    elem = document.getElementById('activity')
+		    elem.appendChild(element);*/
+
+		   var sel = document.getElementById('voices');
+			for(var i = 0; i < azureVoices.length; i++) {
+			    var opt = document.createElement('option');
+			    opt.innerHTML = azureVoices[i].text;
+			    opt.value = azureVoices[i].value;
+			    sel.appendChild(opt);
+			}
+
+			var sel = document.getElementById('languages');
+			for(var i = 0; i < languages.length; i++) {
+			    var opt = document.createElement('option');
+			    opt.innerHTML = languages[i];
+			    opt.value = languages[i];
+			    sel.appendChild(opt);
+			}
+
+			document.getElementById("speech_speed").value = 100.0;
+
+	    	/* https://docs.botui.org/guide.html */
+	    	botui = new BotUI('hello-world');
+	    	/*botui.message.add({
+		        content: 'Hello World from bot<br />Fog'
+		      }).then(function () {
+		      	
+		      	setTimeout(function() {
+		      		botui.message.add({
+			          loading: true
+			        });
+		      	}, 5000);
+
+		      });*/
+		   	//restartDialogue();
+
+		    //addPlay();
+
+		    console.log("D1-text:"+dialogue[0]["text"]+", type:"+dialogue[0]["type"]);
+		    console.log("D2-text:"+dialogue[1]["text"]+", type:"+dialogue[1]["type"]);
+
+	            restartDialogue();
+
+	  	});
+
+	  	var botui;
+	  	var languages = ['en', 'es'];
+                var azureVoices = [ 
+	  				{text:"Zira (en-us)", value:"Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)"},
+					{text:"Jessa (en-us)", value: "Microsoft Server Speech Text to Speech Voice (en-US, JessaRUS)"},
+					{text:"Benjamin (en-su)", value: "Microsoft Server Speech Text to Speech Voice (en-US, BenjaminRUS)"},
+					
+					{text:"Laura (es-es)", value: "Microsoft Server Speech Text to Speech Voice (es-ES, Laura, Apollo)"},
+					{text:"Helena (es-es)", value: "Microsoft Server Speech Text to Speech Voice (es-ES, HelenaRUS)"},
+					{text:"Apollo (es-es)", value:"Microsoft Server Speech Text to Speech Voice (es-ES, Pablo, Apollo)"},
+		];
+
+	  	function getCurrentVoice() {
+			var voice = "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)"
+			//Try to get it from element
+	  		var e = document.getElementById("voices");
+			if (e) {
+				voice = e.options[e.selectedIndex].value;
+			} else {
+				console.log("Using default voice");
+			}
+
+			return voice;
+		}
+
+                function stopAudio(id) {
+        	console.log("Audio stopped for id:"+id)
+		    ///var audio = document.getElementById('audio');
+		    //audio.stop();
+		    $('#play_'+id).removeClass('glyphicon-pause')
+	        $('#play_'+id).addClass('glyphicon-play-circle')
+		}
+
+	  	function play(id){
+       		//var audio = document.getElementById("audio");
+       		//audio.play();
+       		console.log("Playing for id:"+id)
+       		var audio = document.getElementById('audio_'+id);
+	        if (audio.paused) {
+	            audio.play();
+	            $('#play_'+id).removeClass('glyphicon-play-circle')
+	            $('#play_'+id).addClass('glyphicon-pause')
+	        } else{
+	            audio.pause();
+	            audio.currentTime = 0
+	            $('#play_'+id).addClass('glyphicon-play-circle')
+	            $('#play_'+id).removeClass('glyphicon-pause')
+	        }
+
+	        audio.addEventListener('ended', function(){ stopAudio(id); });
+        }
+
+	  	function restartDialogue() {
+	    	console.log("Restarting the dialogue...");
+	    	  
+	    	dialogue_position = 0;
+	    	botui.message.removeAll();
+	    	progressDialogue();
+	  	}
+
+	  	function progressDialogue(delay = 0) {
+	  		console.log("Progressing dialogue, current position: "+dialogue_position)
+	  		var e = document.getElementById("languages");
+			var lang = e.options[e.selectedIndex].value;
+			console.log("Language selected:"+lang);
+			console.log("Voice selected: "+getCurrentVoice());
+
+	  		if (dialogue_position > dialogue.length) {
+	  			console.log("Dialogue ended!");
+	  			return;
+	  		}
+
+	  		msg_spec = {};
+	  		msg_spec['content'] = dialogue[dialogue_position]['text'][lang];
+	  		msg_spec['delay'] = delay;
+	  	
+	  		botui.message.add(msg_spec).then(function (index) {
+	  			addPlay(msg_spec['content']);
+
+	  			switch (dialogue[dialogue_position]['type']) {
+	  				case "Skip":
+	  					console.log("Auto progress message...")
+	  					msg_delay = dialogue[dialogue_position]['delay'];
+	  					console.log("delay:"+msg_delay);
+	  					dialogue_position += 1;
+	  					progressDialogue(msg_delay);
+
+	  					break;
+	  					
+	  				case "Yes/No":
+	  					console.log("Yes/No type of response...")
+	  					botui.action.button({
+	  						action: [
+						    { // show only one button
+						    	text: 'Yes',
+						      	value: 'Yes'
+						    },
+						    {
+						    	text: 'No',
+						      	value: 'No'
+						    }
+						  ]
+						}).then(function (res) { // will be called when a button is clicked.
+							console.log("Got value from Yes/No:" + res.value); // will print "one" from 'value'
+							dialogue_position += 1;
+							progressDialogue();
+						});
+						break;
+					case "Input":
+	  					console.log("Input type of response...")
+	  					botui.action.text({
+	  						action: [
+						    { // show only one button
+						    	placeholder: 'Enter your salary here'
+						    }
+						  ]
+						}).then(function (res) { // will be called when a button is clicked.
+							console.log("Got value from Inout:" + res.value); // will print "one" from 'value'
+							dialogue_position += 1;
+							progressDialogue();
+						});
+						break;
+					case "Options":
+	  					console.log("Options type of response...")
+	  					botui.action.button({
+	  						action: dialogue[dialogue_position]["options"]
+						}).then(function (res) { // will be called when a button is clicked.
+							console.log("Got value from Options:" + res.value); // will print "one" from 'value'
+							dialogue_position += 1;
+							progressDialogue();
+						});
+						break;
+					case "Options-multiple":
+	  					console.log("Options type of response...")
+	  					botui.action.select({
+	  						action: {
+	  							placeholder : "Select option",
+	  							value: [],//[dialogue[dialogue_position]["options"][0]],
+	  							searchselect : false,
+	  							multipleselect : true,
+	  							options: dialogue[dialogue_position]["options"],
+	  							button: {
+						    		icon: 'check',
+						    		label: 'OK'
+						    	}
+						    }
+						}).then(function (res) { // will be called when a button is clicked.
+							console.log("Got value from Options:" + res.value); // will print "one" from 'value'
+							dialogue_position += 1;
+							progressDialogue();
+						});
+						break;
+					default:
+						console.log("Unknown message type!!!");
+
+	  			}
+	  		});
+	  	}
+
+	  	function addPlay(message) {
+	  		console.log("Running play with message:"+message)
+		 	
+		 	if (message) {
+		 		/*var e = document.getElementById("voices");
+				var voice = e.options[e.selectedIndex].value;*/
+ 				voice = getCurrentVoice();
+				console.log("Current voice:"+voice);
+
+				var re = /[A-Za-z0-9_-]+(?=,)/g;
+				var myArray = voice.match(re);
+				var lang = myArray[0];
+				console.log("Lang:"+lang);
+
+				speech_speed = document.getElementById("speech_speed").value;
+				speed_reduction = 100.00 - speech_speed
+				console.log("Speed reduction:"+speed_reduction)
+
+	      		var request = $.ajax({
+			        url: "/ttsRequest",
+			        type: "GET",
+			        data: {text: message, voice: voice, lang: lang, speed_reduction: speed_reduction},
+			        dataType: "html",
+			        async: true, 
+			        success : function (msg)
+			        {
+			          	console.log("Called TTS successfully!")
+			          	var obj = JSON.parse(msg);
+
+			          	console.log("Audio file from TTS in HTML: "+obj.audio_file);
+
+			          	var elems = document.getElementsByClassName('botui-message-content');
+				      	var i = 0;
+				      	console.log("Elems:"+elems.length);
+				      	//for (i = 0; i < elems.length; i++) {
+				      	if (elems.length>0) {
+			      			var i = elems.length -1;
+
+				      		console.log("el:"+i);
+
+				          	var audio_tag = document.createElement("audio");
+				      		audio_tag.id = "audio_"+i;
+				      		audio_tag.src = obj.audio_file; //"./static/audio/text.wav";
+
+				      		var element = document.createElement("div");
+				      		element.classList.add("glyphicon");
+			  				element.classList.add("glyphicon-play-circle");
+			  				element.classList.add("b-play");
+			  				element.id = "play_"+i;
+			  				element.style.width="40px";
+			  				//element.style.height="50px";
+			  				element.style.margin="auto";
+			  				element.onclick = function() {play(i)};
+		  				
+				      		//elems[i].style.backgroundColor = "red";
+				      		/*<div style='margin:auto; width: 100%' class='glyphicon glyphicon-play-circle b-play' id='' onclick='play()'></div>*/
+				      		elems[i].appendChild(audio_tag);
+				      		elems[i].appendChild(element);
+
+		      				play(i);
+		      			}
+			        }
+			    });
+			}
+
+	  	}
+
+    </script>
+
+  </head>
+  <body>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <div class="container-fluid">
+
+      <!--- Top row/menu bar -->
+      <div class="row bgcolor" >
+        <div class="col-sm-3 "> </div>       
+        <div class="col-sm-6">          
+	          <image src="./static/images/bot-female-2.png"  align=left style="padding-top:10px; height:65px; width: 55px;" > </image>
+	          <div class="classWithPad">
+		          <h4> Harbor</h4>
+		          <p> Your chatbot to help you find resources</p>
+		          <br />
+		      </div>
+	    </div>
+	<div class="col-sm-3"></div>		 	
+	</div>
+      <!--- Remaining elements -->
+      <div class="row">
+        <div class="col-sm-3">
+        </div>
+
+        <div class="col-sm-6 text-center">
+          
+          <select id="languages">
+          </select> 
+
+          <select id="voices">
+          </select> 
+          <br />
+       	<br />
+
+          <input type="range" id="speech_speed">
+
+          <!-- <button type="button" onclick="return restartDialogue();">Restart dialogue</button> -->
+          <div class="botui-app-container text-left" id="hello-world" style="border: 0px solid black">
+            <bot-ui></bot-ui>
+          </div>
+        </div>
+        <div class="col-sm-3">
+        	<div id="activity"></div>
+        
+        </div>
+      </div>
+      
+    </div> <!-- /container -->
+
+    <!--- SCRIPTS AND STUFFF -->
+
+    <!-- Vue - BotUI requires Vue to be present in page -->
+	<script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
+	<!-- BotUI - main file -->
+	<script src="/static/scripts/botui.min.js"></script>
+
+  </body>
+</html>

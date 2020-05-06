@@ -1,0 +1,182 @@
+INFO:root:Server loading...
+INFO:root:Test loading model training data...
+INFO:root:{
+
+INFO:root:    "Positive_frame": [
+
+INFO:root:        "how confident are you filling out medical forms by yourself ?",
+
+INFO:root:        "how safe do you feel where you live ?",
+
+INFO:root:        "in this course we do things so many times that i started doing them without thinking about it.",
+
+INFO:root:        "i feel very safe where i live .",
+
+INFO:root:        "i am comfortable with the way things are going in my life",
+
+INFO:root:        "how happy are you with your current job ?",
+
+INFO:root:        "i feel quite comfortable shring my story with others .",
+
+INFO:root:        "do you have enough resources to pay for the very basic needs such as food , housing and medications ?",
+
+INFO:root:        "do you feel satisfied with your current job ?",
+
+INFO:root:        "how well do the professors teach at the university?",
+
+INFO:root:        "how effective is the teaching outside your major at this university?",
+
+INFO:root:        "how happy and excited do you feel?"
+
+INFO:root:    ],
+
+INFO:root:    "Negative_frame": [
+
+INFO:root:        "do you feel sad and exhausted?",
+
+INFO:root:        "are you feeling depressed?",
+
+INFO:root:        "do you feel sad?",
+
+INFO:root:        "how often do you feel sad, exhausted and stressed every day?",
+
+INFO:root:        "thinking about your place , do you have problems with any of the following ?",
+
+INFO:root:        "did you experience issues with violence in your neighborhood ?",
+
+INFO:root:        "do you feel extremely stressed and prone to crying ?",
+
+INFO:root:        "are you uncomfortable answering survey questions ?",
+
+INFO:root:        "do you feel thretened by your curren boss ?",
+
+INFO:root:        "how insecure , discouraged , irritated , stressed , and annoyed were you ?",
+
+INFO:root:        "how hard did you have to work to accomplish this task well ?",
+
+INFO:root:        "how mentally demanding was the task ?",
+
+INFO:root:        "how hurried or rushed was the pace of your work these recent days ?",
+
+INFO:root:        "little interest or pleasure in doing things",
+
+INFO:root:        "trouble concentrating on things, such as reading the newspaper or watching television"
+
+INFO:root:    ],
+
+INFO:root:    "Neutral_frame": [
+
+INFO:root:        "what is your age ?",
+
+INFO:root:        "what is your occupation ?",
+
+INFO:root:        "how would you describe your work ?",
+
+INFO:root:        "how often do you do any of the following ?",
+
+INFO:root:        "do you own a car ?",
+
+INFO:root:        "what is your contact information ?",
+
+INFO:root:        "please list your family memmbers",
+
+INFO:root:        "how often do you spend time watching tv ?",
+
+INFO:root:        "how much do you earn a month ?"
+
+INFO:root:    ]
+
+INFO:root:}
+INFO:root:Instance path:/var/www/testapp
+INFO:root:Creating all database tables...
+INFO:root:Server loading...
+INFO:root:Test loading model training data...
+INFO:root:{
+
+INFO:root:    "Positive_frame": [
+
+INFO:root:        "how confident are you filling out medical forms by yourself ?",
+
+INFO:root:        "how safe do you feel where you live ?",
+
+INFO:root:        "in this course we do things so many times that i started doing them without thinking about it.",
+
+INFO:root:        "i feel very safe where i live .",
+
+INFO:root:        "i am comfortable with the way things are going in my life",
+
+INFO:root:        "how happy are you with your current job ?",
+
+INFO:root:        "i feel quite comfortable shring my story with others .",
+
+INFO:root:        "do you have enough resources to pay for the very basic needs such as food , housing and medications ?",
+
+INFO:root:        "do you feel satisfied with your current job ?",
+
+INFO:root:        "how well do the professors teach at the university?",
+
+INFO:root:        "how effective is the teaching outside your major at this university?",
+
+INFO:root:        "how happy and excited do you feel?"
+
+INFO:root:    ],
+
+INFO:root:    "Negative_frame": [
+
+INFO:root:        "do you feel sad and exhausted?",
+
+INFO:root:        "are you feeling depressed?",
+
+INFO:root:        "do you feel sad?",
+
+INFO:root:        "how often do you feel sad, exhausted and stressed every day?",
+
+INFO:root:        "thinking about your place , do you have problems with any of the following ?",
+
+INFO:root:        "did you experience issues with violence in your neighborhood ?",
+
+INFO:root:        "do you feel extremely stressed and prone to crying ?",
+
+INFO:root:        "are you uncomfortable answering survey questions ?",
+
+INFO:root:        "do you feel thretened by your curren boss ?",
+
+INFO:root:        "how insecure , discouraged , irritated , stressed , and annoyed were you ?",
+
+INFO:root:        "how hard did you have to work to accomplish this task well ?",
+
+INFO:root:        "how mentally demanding was the task ?",
+
+INFO:root:        "how hurried or rushed was the pace of your work these recent days ?",
+
+INFO:root:        "little interest or pleasure in doing things",
+
+INFO:root:        "trouble concentrating on things, such as reading the newspaper or watching television"
+
+INFO:root:    ],
+
+INFO:root:    "Neutral_frame": [
+
+INFO:root:        "what is your age ?",
+
+INFO:root:        "what is your occupation ?",
+
+INFO:root:        "how would you describe your work ?",
+
+INFO:root:        "how often do you do any of the following ?",
+
+INFO:root:        "do you own a car ?",
+
+INFO:root:        "what is your contact information ?",
+
+INFO:root:        "please list your family memmbers",
+
+INFO:root:        "how often do you spend time watching tv ?",
+
+INFO:root:        "how much do you earn a month ?"
+
+INFO:root:    ]
+
+INFO:root:}
+INFO:root:Instance path:/var/www/testapp
+INFO:root:Creating all database tables...

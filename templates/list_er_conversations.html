@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>ER bot conversations</title>
+    </head>
+    
+    <body>
+        <center>
+            <h3>Logged ER bot conversations:</h3>
+            Can view using: <a href="http://jsonviewer.stack.hu/" target="_blank">http://jsonviewer.stack.hu/</a>
+            <br />
+            <br />
+            {% for c in conversations|sort(attribute='datetime', reverse = True) %}
+                <div>
+                    {{ loop.index }} - 
+                    {{ c.datetime }} - <!--.strftime('%Y-%m-%d') -->
+                    {{ c.len }} - 
+                    <a href="/er_bot_get_conversation?conv_id={{ c.filepath }}" target="_blank">LINK</a>
+                </div>
+            {% endfor %}
+            
+        </center>
+    </body>
+</html>
