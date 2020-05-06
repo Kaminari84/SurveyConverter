@@ -1,6 +1,4 @@
-import sys
-#sys.path.insert(0, "/home/rk_bot_test1/.local/lib/python3.5/site-packages")
-
+import logging
 import json
 import numpy as np
 import random
@@ -11,6 +9,11 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import SGDClassifier
 from sklearn.pipeline import Pipeline
 import spacy
+import pickle
+
+import os
+import os.path
+from os import path
 
 #https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html
 
@@ -30,7 +33,7 @@ class TextClassifier:
     lbl2idx = {}
     idx2lbl = []
 
-    def __init__(self, data_file):
+    def __init__(self, data_file, model_path, rem_stop_words=False, use_pos_tags=False):
         self.data_file = data_file
 
         #tokenizer for english
@@ -41,9 +44,58 @@ class TextClassifier:
         with open(self.data_file, 'r') as f:
             self.data_dict = json.load(f)
 
+        self.processData(rem_stop_words, use_pos_tags)
+
+        #Saved model - load it
+        if path.exists(model_path):
+          self.load_model(model_path)
+        #Model does not exist, train one
+        else:
+          self.train(test_prop=0.1)
+          self.save_model(model_path)
+
         #print(self.data_dict)
 
-    def train(self, test_prop=0.1, rem_stop_words=False, use_pos_tags=False):
+    def save_model(self, filepath):
+        #save 
+        config_dict = {}
+        config_dict['use_pos_tags'] = self.use_pos_tags
+        config_dict['rem_stop_words'] = self.rem_stop_words
+        config_dict['all_data'] = self.all_data
+        config_dict['all_data_pos'] = self.all_data_pos
+        config_dict['all_labels'] = self.all_labels
+
+        if not path.exists(filepath):
+          os.mkdir(filepath)
+
+        #save ML model
+        pickle.dump(self.text_clf, open(path.join(filepath, "model.pcl"), 'wb'))
+
+        #save the metadata
+        pickle.dump(config_dict, open(path.join(filepath, "metadata.pcl"), 'wb'))
+
+    def load_model(self, filepath):
+        model_path = path.join(filepath, "model.pcl")
+       	logging.info("---LOADING MODEL: <"+str(filepath)+">---")
+        self.text_clf = pickle.load(open(model_path, 'rb'))
+
+        meta_path = path.join(filepath, "metadata.pcl")
+        logging.info("---LOADING METADATA: <"+str(meta_path)+">---")
+        conf_dict = pickle.load(open(meta_path, 'rb'))
+
+        self.use_pos_tags = conf_dict['use_pos_tags']
+        self.rem_stop_words = conf_dict['rem_stop_words']
+        self.all_data = conf_dict['all_data']
+        self.all_data_pos = conf_dict['all_data_pos']
+        self.all_data_labels = conf_dict['all_labels']
+
+        #train accuracy
+        #result = loaded_model.score(X_test, Y_test)
+        #print(result)
+        #train_predicted = self.text_clf.predict(self.all_data)
+        #print("-train accuracy:", round(np.mean(train_predicted == self.all_labels),2))
+
+    def processData(self, rem_stop_words=False, use_pos_tags=False):
         self.lbl2idx = {}
         self.idx2lbl = []
         
@@ -109,6 +161,7 @@ class TextClassifier:
 
         #self.clf = MultinomialNB().fit(X_train_tf, all_labels)
 
+    def train(self, test_prop=0.1):
         #pipeline
         self.text_clf = Pipeline([
             ('vect', CountVectorizer(ngram_range=(1,2), analyzer="word")),

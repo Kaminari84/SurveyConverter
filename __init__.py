@@ -107,7 +107,7 @@ def setup_app(app):
 
 	with app.app_context():
 		# within this block, current_app points to app.
-		print("App name:",current_app.name)
+		logging.info("App name:"+str(current_app.name))
 		current_app.reactionMgrs = {}
 
 		initReactionRepo()
@@ -118,13 +118,34 @@ def setup_app(app):
 		current_app.nlp.vocab["extent"].is_stop = True
 
 		#train question framing classifier
-		print("---------QUESTION FRAMING CLASSIFIER----------")
-		current_app.q_clf = TextClassifier(os.path.join(app.root_path, "static/model_data/q_framing_data.json"))
-		current_app.q_clf.train(test_prop=0.1)
+		logging.info("---------QUESTION FRAMING CLASSIFIER----------")
+		data_path = os.path.join(app.root_path, "static/model_data/q_framing_data.json")
+		model_path = os.path.join(app.root_path, "static/models/q_framing_model")
+		current_app.q_clf = TextClassifier(data_path, model_path)
+		#current_app.q_clf.train(test_prop=0.1)
 
+		#train answer framing classifier
+		logging.info("---------ANSWER SENTIMENT CLASSIFIER----------")
+		data_path = os.path.join(app.root_path, "static/model_data/ans_types.json")
+		model_path = os.path.join(app.root_path, "static/models/ans_types_model")
+		current_app.ans_clf = TextClassifier(data_path, model_path)
+		#current_app.ans_clf.train(test_prop=0.1)
+
+		#train survey domain recongition classifier
+		logging.info("---------SURVEY DOMAIN CLASSIFIER----------")
+		data_path = os.path.join(app.root_path, "static/model_data/domain_survey_data.json")
+		model_path = os.path.join(app.root_path, "static/models/domain_survey_model")
+		current_app.d_clf = TextClassifier(data_path, model_path, rem_stop_words=True)
+		#current_app.d_clf.train(test_prop=0.1, rem_stop_words=True)
+
+		#train survey domain recongition classifier
+		logging.info("---------QUESTION PREFIX CLASSIFIER----------")
+		data_path = os.path.join(app.root_path, "static/model_data/q_prefix_data.json")
+		model_path = os.path.join(app.root_path, "static/models/q_prefix_model")
+		current_app.prfx_clf = TextClassifier(data_path, model_path)
+		#current_app.prfx_clf.train(test_prop=0.1)
 
 	logging.info('Done!')
-
 	logging.info("Start the actual server...")
 
 
@@ -133,6 +154,40 @@ setup_app(app)
 @app.route('/')
 def hello_world():
 	return 'Hello, Survey Converter!'
+
+#Question framing REST
+@app.route("/q_framing", methods = ['GET'])
+def q_framing():
+	logging.info("Getting framing for question...")
+
+	q = request.args.get('q')
+	logging.info("q="+str(q))
+
+	q_frame = callQuestionFraming(q)
+	logging.info("Frame:"+str(q_frame))
+
+	json_resp = json.dumps({'status': 'OK',
+				'message':'',
+				'q': q,
+				'q_framing':q_frame})
+
+	return make_response(json_resp, 200, {"content_type":"application/json"})
+
+
+#Call different services to classify the questions framing
+def callQuestionFraming(q, model="classic"):
+	if model == "classic":
+		labels = current_app.q_clf.classify([q])
+		return labels[0]
+	elif model == "rasa":
+		return None
+	elif model == "py_porch":
+		return None
+	elif model == "luis":
+		return None
+	else:
+		return None
+
 
 @app.route('/er_bot')
 def er_bot():
