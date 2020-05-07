@@ -91,11 +91,11 @@ def initReactionRepo():
 #Server initial setup
 def setup_app(app):
 
-	logging.info("Test loading model training data...")
-	f = open(os.path.join(app.root_path,'static/model_data/q_framing_data.json'), 'r')
-	for line in f:
-		logging.info(line)
-	f.close()
+	#logging.info("Test loading model training data...")
+	#f = open(os.path.join(app.root_path,'static/model_data/q_framing_data.json'), 'r')
+	#for line in f:
+	#	logging.info(line)
+	#f.close()
 
 
 	audio_path = os.path.join(app.root_path, "static/audio/audio_test.wav")
@@ -162,7 +162,203 @@ def conv_survey():
 
 	return render_template('bot_interface.html', surveys = survey_files )
 
+#Convert given survey
+@app.route("/augment_survey", methods = ['POST'])
+def augment_survey():
+	logging.info("Trying to agument the survey...")
 
+	survey_file = request.form.get('survey_file')
+	logging.info("Survey file:"+str(survey_file))
+
+	survey_questions = ""
+	with open(os.path.join(app.root_path, 'static/surveys',survey_file), 'r') as f:
+		survey_questions = json.load(f)
+
+	# Augmentation params
+	isOpening = True if request.form.get('isOpening') == "true" else False # Is intro added?
+	isClosing = True if request.form.get('isClosing') == "true" else False # Is closing added?
+
+	logging.info("IS OPENING:"+str(isOpening))
+	logging.info("IS CLOSING:"+str(isClosing))
+
+	progress_repeat = int(request.form.get('progressRepeatN')) # Every how many questions does the progress reporting repeat
+	reaction_repeat = int(request.form.get('reactionRepeatN')) # Every how many questions does the reaction happen
+
+	logging.info("REACTION REPEAT EVERY:"+str(reaction_repeat))
+	logging.info("PROGRESS REPEAT EVERY:"+str(progress_repeat))
+
+	# Empathy: 1.0 - all reactins are empathy loaded, 0.0 - all reactions are neutral
+	reaction_empathy = float(request.form.get('empathyLevel'))
+	logging.info("EMPATHY LEVEL:"+str( reaction_empathy))
+
+	# Q Augmentation: 1.0 - all question augmented, 0.0 - none augmented
+	q_augment = float(request.form.get('qAugmentLevel'))
+	logging.info("QUESTION AUGMENTATION LEVEL:"+str(q_augment))
+
+	logging.info("-------ORIGINAL--------")
+	# Show the original survey
+	i = 0
+	all_survey_words = ""
+	for question in survey_questions:
+		i += 1
+		logging.info(str(i)+"."+str(question['text'])+ ", A: "+str(question['type']))
+		#rem stop words
+		sent_tokens = current_app.nlp(question['text'].lower())
+		for token in sent_tokens:
+			if token.is_stop:
+				pass
+			else:
+				all_survey_words += token.text+" "
+
+	logging.info("DOMAIN ["+str(len(all_survey_words))+"]->"+str(all_survey_words))
+	# Recognize the survey domain
+	topic = "unknown"
+	with app.app_context():
+		topic = str(current_app.d_clf.classify([all_survey_words])[0])
+
+	logging.info("Detected domain:"+str(topic))
+
+	# Deep content params
+	name = str(topic).title().replace(" ","")+"Bot"
+	logging.info("Bot name:"+str(name))
+	#sections = ["Habitual Action", "Understanding", "Reflection", "Critical Reflection"]
+
+	#Add survey progress blocks
+	logging.info("-------PROCESSING-------")
+	s_len = len(survey_questions)
+	i = 0
+	qn = 0
+	with app.app_context():
+		itr_questions = iter(survey_questions)
+		for question in itr_questions:
+			if "//" in question:
+				logging.info("Comment found")
+
+			### Reactions ##
+			if reaction_repeat > 0 and i % reaction_repeat == (reaction_repeat-1):
+				react_empathicly = (random.random() <= reaction_empathy)
+				#print("Rand:", react_empathicly)
+				#print("Q:",question)
+
+				reaction_block = {}
+
+				#Add empathetic reaction that matches the context (question-answer)
+				if react_empathicly:
+					q_frame = callQuestionFraming(question['text'])
+					logging.info("Frame:"+str(q_frame))
+					question['framing'] = q_frame
+
+					# For Yes/No type
+					if question['type'] == 'Yes/No':
+						positive_react = current_app.reactionMgrs['reaction_positive_list'].getLeastFreqChoice() #random.choice(reaction_positive_list)
+						negative_react = current_app.reactionMgrs['reaction_negative_list'].getLeastFreqChoice() #random.choice(reaction_negative_list)
+
+						if q_frame == "Positive_frame":
+							reaction_block['Yes'] = positive_react
+							reaction_block['No'] = negative_react
+						elif q_frame == "Negative_frame":
+							reaction_block['Yes'] = negative_react
+							reaction_block['No'] = positive_react
+
+					 # For Options
+					if question['type'] == 'Options':
+						react = current_app.reactionMgrs['reaction_neutral_list'].getLeastFreqChoice() #random.choice(reaction_neutral_list)
+						logging.info("Orig neutr react:"+str(react))
+						for option in question['options']:
+							logging.info("Option", option['text'])
+
+							ans_frame = current_app.ans_clf.classify([option['text']])[0]
+							option['framing'] = ans_frame
+
+							# Positive Answers
+							#if option['text'] in pos_answers:
+							if ans_frame == "pos_answer":
+								if q_frame == "Positive_frame":
+									react = current_app.reactionMgrs['reaction_positive_list'].getLeastFreqChoice() #random.choice(reaction_positive_list)
+								elif q_frame == "Negative_frame":
+									react = current_app.reactionMgrs['reaction_negative_list'].getLeastFreqChoice() #random.choice(reaction_negative_list)
+							# Negative Answers
+							#elif option['text'] in neg_answers:
+							if ans_frame == "neg_answer":
+								if q_frame == "Positive_frame":
+									react = current_app.reactionMgrs['reaction_negative_list'].getLeastFreqChoice() #random.choice(reaction_negative_list)
+								elif q_frame == "Negative_frame":
+									react = current_app.reactionMgrs['reaction_positive_list'].getLeastFreqChoice() #random.choice(reaction_positive_list)
+							# Neutral Answers or Unknown
+							else:
+								pass
+
+							#Assign reaction to option
+							reaction_block[option['value']] = react
+				else: #if react_empatically
+					# For Yes/No type
+					if question['type'] == 'Yes/No':
+						neutral_react =  current_app.reactionMgrs['reaction_neutral_list'].getLeastFreqChoice() #random.choice(reaction_neutral_list)
+						reaction_block['Yes'] = neutral_react
+						reaction_block['No'] = neutral_react
+					# For Options
+					if question['type'] == 'Options':
+						react = current_app.reactionMgrs['reaction_neutral_list'].getLeastFreqChoice() #random.choice(reaction_neutral_list)
+						for option in question['options']:
+							reaction_block[option['value']] = react
+
+				if bool(reaction_block):
+					question['reactions'] = reaction_block
+
+			#### Question augmentation ###
+			if q_augment > 0 and question['type'] != "Skip" and "mod_text" not in question:
+				addPrefix = (random.random() <= q_augment)
+				if addPrefix:
+					prefix_cat = current_app.prfx_clf.classify([question['text']])[0]
+					question['prefix_class'] = prefix_cat
+
+					if prefix_cat != "q_none":
+						#'q_verb_prefix'
+						prefix = current_app.reactionMgrs[prefix_cat].getLeastFreqChoice() #random.choice(reaction_positive_list)
+						conv_rules = reaction_repo[prefix_cat]['conv']
+
+						if i>0:
+							addRepeat = (random.random() <= 0.7)
+							if addRepeat:
+								repeat = current_app.reactionMgrs['repeat_prefix_additions'].getLeastFreqChoice()
+								prefix = repeat+", "+prefix[0].lower()+prefix[1:]
+
+						#Conversions to the question text
+						text = question['text'][0].lower()+question['text'][1:]
+						for conv in conv_rules:
+							if conv['type'] == "replace":
+								text = text.replace(conv['from'], conv['to'])
+
+						question['org_text'] = question['text']
+						question['prefix'] = prefix
+						question['mod_text'] = text
+						question['text'] = prefix+" "+text  
+
+
+			#-----------OTHER AUGMENTATIONS GO HERE--------------------
+
+
+
+	#Save to json file
+	conv_survey_file = survey_file.replace('.json','_conv.json')
+	logging.info("Saving conversational survey file:"+str(conv_survey_file))
+
+	with open(os.path.join(app.root_path, 'static/conv_surveys', conv_survey_file), 'w') as f:
+		str_json = json.dumps(survey_questions, indent=4, sort_keys=True)
+		#str_json = str_json.replace("'","\\'")
+		#str_json = str_json.replace("\'","\\'")
+		print(str_json, file=f)
+
+	cov_survey = survey_questions
+	json_resp = json.dumps({'status': 'OK', 'message':'',
+				'survey_data':cov_survey,
+				'conv_survey_file': conv_survey_file,
+				'domain':topic, 'bot_name':name})
+
+	return make_response(json_resp, 200, {"content_type":"application/json"})
+
+
+#Get list of surveys in storage
 @app.route('/get_survey_list')
 def get_survey_list():
 	print('Get survey list called:')
