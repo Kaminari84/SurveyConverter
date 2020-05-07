@@ -1,0 +1,410 @@
+[
+  { 
+      "text": "What is your racial and ethnic background?", 
+      "type": "Options", 
+      "options": [ 
+          {"value": "Opt_1", "text" : "American Indian or Alaska Native" },
+          {"value": "Opt_2", "text" : "Asian" },
+          {"value": "Opt_3", "text" : "Black or African American"},
+          {"value": "Opt_4", "text" : "Native Hawaiian or Other Pacific Islander"},
+          {"value": "Opt_5", "text" : "White"},
+          {"value": "Opt_6", "text" : "Hispanic, Lation, or Spanish Origin"},
+          {"value": "Opt_7", "text" : "Multiple Race, including Mestizo"},
+          {"value": "Opt_8", "text" : "Other"}
+      ]
+  },
+  {
+      "text": "What is your gender identify? (Check all that apply)",
+      "type": "Options",
+      "options": [ 
+        {"value": "Opt_1", "text" : "Male" },
+        {"value": "Opt_2", "text" : "Female" },
+        {"value": "Opt_3", "text" : "Transgender male, trans man, female-to-male, Transmasculine"},
+        {"value": "Opt_4", "text" : "Transgender female, trans woman, male-to-female, transfeminine"},
+        {"value": "Opt_5", "text" : "Genderqueer, neither exclusively male nor female, nonbinary, or gender nonconforming"},
+        {"value": "Opt_6", "text" : "Additional gender category/Other "},
+        {"value": "Opt_7", "text" : "Choose not to disclose"}
+      ]
+  },
+  {
+      "text": "How would you describe your sexual attraction or orientation?",
+      "type": "Options", 
+      "options": [ 
+          {"value": "Opt_1", "text" : "Straight or heterosexual" },
+          {"value": "Opt_2", "text" : "Lesbian, gay, or homosexual" },
+          {"value": "Opt_3", "text" : "Bisexual or pansexual"},
+          {"value": "Opt_4", "text" : "Asexual"},
+          {"value": "Opt_5", "text" : "Something else, please describe"},
+          {"value": "Opt_6", "text" : "Don't know"},
+          {"value": "Opt_7", "text" : "Choose not to disclose"}
+      ]
+  },
+  {
+    "text": "What type of health insurance do you have?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "No health insurance" },
+        {"value": "Opt_2", "text" : "Medi-Cal" },
+        {"value": "Opt_3", "text" : "Medi-Cal pending"},
+        {"value": "Opt_4", "text" : "Employer provided"},
+        {"value": "Opt_5", "text" : "Medi-Care"},
+        {"value": "Opt_6", "text" : "COBRA"},
+        {"value": "Opt_7", "text" : "State Children's health"},
+        {"value": "Opt_8", "text" : "Private health insurance"},
+        {"value": "Opt_9", "text" : "VA medical services"},
+        {"value": "Opt_10", "text" : "Indian health services"},
+        {"value": "Opt_11", "text" : "Other"},
+        {"value": "Opt_12", "text" : "Don't know or unsure"},
+        {"value": "Opt_13", "text" : "Decline to answer"}
+    ]
+  },
+  {
+    "text": "What is your current marital status?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Married" },
+        {"value": "Opt_2", "text" : "Widowed" },
+        {"value": "Opt_3", "text" : "Separated"},
+        {"value": "Opt_4", "text" : "Divorced"},
+        {"value": "Opt_5", "text" : "Never married / single"},
+        {"value": "Opt_6", "text" : "Committed relationship / partnered"},
+        {"value": "Opt_7", "text" : "Decline to answer"}
+    ]
+  },
+  {
+    "text": "For how many years did you go to school?",
+    "type": "Input"
+  },
+  {
+    "text": "Do you have the resources to pay for the very basics like food, housing, medical care, and heating?",
+    "type": "Yes/No"
+  },
+  {
+    "text": "Do you have any significant outstanding bills or debts?",
+    "type": "Yes/No"
+  },
+  {
+    "text": "Do you want help finding or keeping work or a job?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Yes, help finding work " },
+        {"value": "Opt_2", "text" : "Yes, help keeping work " },
+        {"value": "Opt_3", "text" : "I do not need or want helpd"}
+    ]
+  },
+  {
+    "text": "Do you want help with school or training? For example, starting or completing job training or getting a high school diploma, GED or equivalent.",
+    "type": "Yes/No"
+  },
+  {
+    "text": "What is your living situation today?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "I have a steady place to live" },
+        {"value": "Opt_2", "text" : "I have a place to live today, but I am worried about losing it in the future" },
+        {"value": "Opt_3", "text" : "I do not have a steady place to live (I am temporarily staying with others, in a hotel, living outside on the street, on a beach, in a car, abandoned building, bus or train station, or in a park)"},
+        {"value": "Opt_4", "text" : "Decline to answer"}
+    ]
+  },
+  {
+    "text": "Think about the place you live. Do you have problems with any of the following? (CHOOSE ALL THAT APPLY)",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Pests such as bugs, ants, or mice " },
+        {"value": "Opt_2", "text" : "Mold" },
+        {"value": "Opt_3", "text" : "Lead paint or pipes"},
+        {"value": "Opt_4", "text" : "Lack of heat"},
+        {"value": "Opt_5", "text" : "Oven or stove not working"},
+        {"value": "Opt_6", "text" : "Smoke detectors missing or not working"},
+        {"value": "Opt_7", "text" : "Water leaks"},
+        {"value": "Opt_8", "text" : "Other"},
+        {"value": "Opt_9", "text" : "Not applicable"},
+        {"value": "Opt_10", "text" : "Satisfactory conditions"}
+    ]
+  },
+  {
+    "text": "In the past 12 months has the electric, gas, oil, or water company threatened to shut off services in your home?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Yes" },
+        {"value": "Opt_2", "text" : "No" },
+        {"value": "Opt_3", "text" : "Already shit off"}
+    ]
+  },
+  {
+    "text": "Within the past 12 months, were you worried whether your food would run out before you got money to buy more?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Often true" },
+        {"value": "Opt_2", "text" : "Sometimes true" },
+        {"value": "Opt_3", "text" : "Never true"}
+    ]
+  },
+  {
+    "text": "Within the past 12 months the food you bought just didn't last and you didn't have money to get more.  Was this:",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Often true" },
+        {"value": "Opt_2", "text" : "Sometimes true" },
+        {"value": "Opt_3", "text" : "Never true"}
+    ]
+  },
+  {
+    "text": "In the past 12 months, has lack of reliable transportation kept you from medical appointments, meetings, work or from getting things needed for daily living?",
+    "type": "Yes/No"
+  },
+  {
+    "text": "Would you like legal guidance/help with any of the following issues?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Immigration" },
+        {"value": "Opt_2", "text" : "Unpaid tickets" },
+        {"value": "Opt_3", "text" : "Eviction"},
+        {"value": "Opt_4", "text" : "Outstanding Warrants"},
+        {"value": "Opt_5", "text" : "Clearing your record/expungement"},
+        {"value": "Opt_6", "text" : "Child Custody"},
+        {"value": "Opt_7", "text" : "Child Support"},
+        {"value": "Opt_8", "text" : "Domestic Violence/restraining order"},
+        {"value": "Opt_9", "text" : "Getting an ID/birth certificate"},
+        {"value": "Opt_10", "text" : "Employment (improper termination, unpaid wages, etc.)"},
+        {"value": "Opt_11", "text" : "Education/School (IEP, suspension, truancy, etc.)"},
+        {"value": "Opt_12", "text" : "Public Benefits (CalFresh/Food Stamps, SSI/Social Security, General Relief, CalWORKs, Medi-Cal, Medicare, etc.)"}
+    ]
+  },
+  {
+    "text": "Are you or your partner planning on having a child in the next year?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Yes" },
+        {"value": "Opt_2", "text" : "No" },
+        {"value": "Opt_3", "text" : "Decline to answer"}
+    ]
+  },
+  {
+    "text": "Are you using any contraceptive methods?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Yes" },
+        {"value": "Opt_2", "text" : "No" },
+        {"value": "Opt_3", "text" : "Decline to answer"}
+    ]
+  },
+  {
+    "text": "Have you had unprotected intercourse in the last month",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Yes" },
+        {"value": "Opt_2", "text" : "No" },
+        {"value": "Opt_3", "text" : "Decline to answer"}
+    ]
+  },
+  {
+    "text": "Do you need help with obtaining contraceptives?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Yes" },
+        {"value": "Opt_2", "text" : "No" },
+        {"value": "Opt_3", "text" : "Decline to answer"}
+    ]
+  },
+  {
+    "text": "Do you currently feel unsafe?",
+    "type": "Yes/No"
+  },
+  {
+    "text": "Have you ever been slapped, kicked, hit or physically hurt by someone in the past year?",
+    "type": "Yes/No"
+  },
+  {
+    "text": "Are you currently in or have you ever been in an abusive relationship?",
+    "type": "Yes/No"
+  },
+  {
+    "text": "Have you ever been pressured or forced to have sex?",
+    "type": "Yes/No"
+  },
+  {
+    "text": "Do you spend time in a home where a gun is kept?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Yes" },
+        {"value": "Opt_2", "text" : "No" },
+        {"value": "Opt_3", "text" : "Decline to answer"}
+    ]
+  },
+  {
+    "text": "In the past year, how often have you used alcohol (for men, 5 or more drinks a day; for women, 4 or more drinks a day)?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Never" },
+        {"value": "Opt_2", "text" : "Once or Twice" },
+        {"value": "Opt_3", "text" : "Monthly"},
+        {"value": "Opt_4", "text" : "Weekly"},
+        {"value": "Opt_5", "text" : "Daily or Almost Daily"}
+    ]
+  },
+  {
+    "text": "In the past year, how often have you used tobacco products?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Never" },
+        {"value": "Opt_2", "text" : "Once or Twice" },
+        {"value": "Opt_3", "text" : "Monthly"},
+        {"value": "Opt_4", "text" : "Weekly"},
+        {"value": "Opt_5", "text" : "Daily or Almost Daily"}
+    ]
+  },
+  {
+    "text": "In the past year, how often have you used marijuana products?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Never" },
+        {"value": "Opt_2", "text" : "Once or Twice" },
+        {"value": "Opt_3", "text" : "Monthly"},
+        {"value": "Opt_4", "text" : "Weekly"},
+        {"value": "Opt_5", "text" : "Daily or Almost Daily"}
+    ]
+  },
+  {
+    "text": "In the past year, how often have you used prescription drugs for non-medical?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Never" },
+        {"value": "Opt_2", "text" : "Once or Twice" },
+        {"value": "Opt_3", "text" : "Monthly"},
+        {"value": "Opt_4", "text" : "Weekly"},
+        {"value": "Opt_5", "text" : "Daily or Almost Daily"}
+    ]
+  },
+  {
+    "text": "In the past year, how often have you used illegal drugs?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Never" },
+        {"value": "Opt_2", "text" : "Once or Twice" },
+        {"value": "Opt_3", "text" : "Monthly"},
+        {"value": "Opt_4", "text" : "Weekly"},
+        {"value": "Opt_5", "text" : "Daily or Almost Daily"}
+    ]
+  },
+  {
+    "text": "Have you ever or do you currently smoke tobacco, e-cigarettes, 'vap' or use Hookah?",
+    "type": "Yes/No"
+  },
+  {
+    "text": "If yes, do you NOW smoke, 'vap' or use Hookah every day, some days, or not at all?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Every day" },
+        {"value": "Opt_2", "text" : "Some days" },
+        {"value": "Opt_3", "text" : "Not at all"}
+    ]
+  },
+  {
+    "text": "Over the past 2 weeks, how often have you been bothered by the following problems: Feeling nervous, anxious, or on edge?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Not at all" },
+        {"value": "Opt_2", "text" : "Several days" },
+        {"value": "Opt_3", "text" : "More than half the days "},
+        {"value": "Opt_4", "text" : "Nearly every day"}
+    ]
+  },
+  {
+    "text": "Over the past 2 weeks, how often have you been bothered by the following problems: Not being able to stop or control worrying?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Not at all" },
+        {"value": "Opt_2", "text" : "Several days" },
+        {"value": "Opt_3", "text" : "More than half the days "},
+        {"value": "Opt_4", "text" : "Nearly every day"}
+    ]
+  },
+  {
+    "text": "Over the past 2 weeks, how often have you been bothered by the following problems: Little interest or pleasure in doing things?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Not at all" },
+        {"value": "Opt_2", "text" : "Several days" },
+        {"value": "Opt_3", "text" : "More than half the days "},
+        {"value": "Opt_4", "text" : "Nearly every day"}
+    ]
+  },
+  {
+    "text": "Over the past 2 weeks, how often have you been bothered by the following problems: Feeling down, depressed, or hopeless?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Not at all" },
+        {"value": "Opt_2", "text" : "Several days" },
+        {"value": "Opt_3", "text" : "More than half the days "},
+        {"value": "Opt_4", "text" : "Nearly every day"}
+    ]
+  },
+  {
+    "text": "Marital status",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Married, living together with someone as married" },
+        {"value": "Opt_2", "text" : "Widowed, divorced, separated, has never been married" }
+    ]
+  },
+  {
+    "text": "In a typical week, how many times do you talk on the telephone with family, friends, or neighbors?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Less than 3/wk" },
+        {"value": "Opt_2", "text" : "3/wk or more" }
+    ]
+  },
+  {
+    "text": "How often do you get together with friends or relatives?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Less than 3/wk" },
+        {"value": "Opt_2", "text" : "3/wk or more" }
+    ]
+  },
+  {
+    "text": "How often do you attend church or religious services?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Less than 4/yr " },
+        {"value": "Opt_2", "text" : "4/yr or more" }
+    ]
+  },
+  {
+    "text": "How often do you attend meetings of the clubs or organizations you belong to?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Less than 2/yr" },
+        {"value": "Opt_2", "text" : "2/yr or more" }
+    ]
+  },
+  {
+    "text": "Please indicate how much you have been bothered by each problem in the past month:",
+    "type": "Skip"
+  },
+  {
+    "text": "Repeated, disturbing memories, thoughts, or images of a stressful experience from the past?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Not at all" },
+        {"value": "Opt_2", "text" : "A little bit" },
+        {"value": "Opt_3", "text" : "Moderately" },
+        {"value": "Opt_4", "text" : "Quite a bit" },
+        {"value": "Opt_5", "text" : "Extremely" }
+    ]
+  },
+  {
+    "text": "Feeling very upset when something reminded you of a stressful experience from the past?",
+    "type": "Options", 
+    "options": [ 
+        {"value": "Opt_1", "text" : "Not at all" },
+        {"value": "Opt_2", "text" : "A little bit" },
+        {"value": "Opt_3", "text" : "Moderately" },
+        {"value": "Opt_4", "text" : "Quite a bit" },
+        {"value": "Opt_5", "text" : "Extremely" }
+    ]
+  }
+  
+]

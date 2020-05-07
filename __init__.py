@@ -2,6 +2,7 @@ import logging
 import os
 import json
 import requests
+import random
 import base64
 
 import time
@@ -151,9 +152,25 @@ def setup_app(app):
 
 setup_app(app)
 
-@app.route('/')
+@app.route('/hello')
 def hello_world():
 	return 'Hello, Survey Converter!'
+
+@app.route('/')
+def conv_survey():
+	survey_files = os.listdir(os.path.join(app.root_path,'static/surveys/'))
+
+	return render_template('bot_interface.html', surveys = survey_files )
+
+
+@app.route('/get_survey_list')
+def get_survey_list():
+	print('Get survey list called:')
+
+	survey_files = os.listdir(os.path.join(app.root_path, 'static/surveys/'))
+	json_resp = json.dumps({'status': 'OK', 'message':'', 'surveys':survey_files})
+
+	return make_response(json_resp, 200, {"content_type":"application/json"})
 
 #Question framing REST
 @app.route("/q_framing", methods = ['GET'])
@@ -187,6 +204,88 @@ def callQuestionFraming(q, model="classic"):
 		return None
 	else:
 		return None
+
+#Answer framing RESRT endpoint
+@app.route("/ans_framing", methods = ['GET'])
+def ans_framing():
+	logging.info("Getting framing for answer options...")
+
+	ans = request.args.get('a')
+	logging.info("a="+str(ans))
+
+	ans_frame = current_app.ans_clf.classify([ans])[0]
+	logging.info("Frame:"+str(ans_frame))
+
+	json_resp = json.dumps({'status': 'OK', 
+				'message':'', 
+				'a': ans,
+				'ans_framing':ans_frame})
+
+	return make_response(json_resp, 200, {"content_type":"application/json"})
+
+#get prefix classification REST endpoint
+@app.route("/prefix_class", methods = ['GET'])
+def prefix_class():
+	logging.info("Getting class for the appropriate prefix...")
+
+	q = request.args.get('q')
+	logging.info("q="+str(q))
+
+	prefix_cat = current_app.prfx_clf.classify([q])[0]
+	logging.info("Prefix cat:"+str(prefix_cat))
+
+	#get examples of matches
+	prefixes = []
+	conv_rules = []
+	aug_text = []
+	if prefix_cat != "q_none":
+		prefixes = reaction_repo[prefix_cat]['prefix']
+		conv_rules = reaction_repo[prefix_cat]['conv'] 
+
+		#Conversions to the augmented text
+		text = q[0].lower()+q[1:]
+		for conv in conv_rules:
+			if conv['type'] == "replace":
+				text = text.replace(conv['from'], conv['to'])
+		aug_text = random.choice(prefixes)+" "+text
+
+	json_resp = json.dumps({'status': 'OK',
+				'message':'',
+				'q': q,
+				'prefix_class': prefix_cat,
+				'matching_prefixes': prefixes,
+				'conversion_rules': conv_rules,
+				'conv_question': aug_text})
+
+	return make_response(json_resp, 200, {"content_type":"application/json"})
+
+#get selected survey content
+@app.route("/get_survey")
+def get_survey():
+	logging.info("Trying to get survey..")
+
+	survey_file = request.args.get('survey_file')
+	survey_source = request.args.get('survey_source')
+
+	json_resp = json.dumps({'status': 'ERROR', 'message':''})
+
+	if survey_file != None and survey_source != None:
+		logging.info("Survey file:"+str(survey_file))
+		logging.info("Survey source:"+str(survey_source))
+
+		survey_path = os.path.join(app.root_path,'static/surveys')
+		if survey_source == "conv":
+			survey_path = os.path.join(app.root_path,'static/conv_surveys')
+
+		survey_dict = ""
+		with open(survey_path+"/"+survey_file, 'r') as f:
+			survey_dict = json.load(f)
+
+		json_resp = json.dumps({'status': 'OK', 'message':'', 'survey_data':survey_dict})
+	else:
+		json_resp = json.dumps({'status': 'ERROR', 'message':'Missing arguments'})
+
+	return make_response(json_resp, 200, {"content_type":"application/json"})
 
 
 @app.route('/er_bot')

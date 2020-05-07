@@ -139,14 +139,16 @@ reaction_repo = {
         "Please indicate the extent to which"
       ],
       "conv": [
-        {"type":"replace", "from":"are you", "to":"you are"},
-        {"type":"replace", "from":"i ", "to":"you "},
+        {"type":"replace", "from":" are you", "to":"you are"},
+        {"type":"replace", "from":" i ", "to":"you "},
         {"type":"replace", "from":"I ", "to":"you "},
         {"type":"replace", "from":"am ", "to":"are "},
         {"type":"replace", "from":"we ", "to":"you "},
         {"type":"replace", "from":"us ", "to":"you "},
         {"type":"replace", "from":"my ", "to":"your "},
         {"type":"replace", "from":"have you", "to":"you have"},
+	{"type":"replace", "from":" me", "to":"you "},
+        {"type":"replace", "from":"me ", "to":"you "}
       ]
     },
                  

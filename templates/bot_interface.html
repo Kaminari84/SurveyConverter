@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Survey Converter</title>
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.2.5/jquery.bootstrap-touchspin.min.css" crossorigin="anonymous">
+
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <!-- Material Components -->
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+    <!-- icon for browser tabs -->
+    <link rel="shortcut icon" href="./static/images/bot-selected.ico">
+
+    <style>
+        .s_elem_q {
+            border: 0px solid black;
+            background-color: #dddddd;
+            padding: 5px;
+        }
+        .s_elem_a {
+            border: 0px solid black;
+            background-color: #ffffff;
+            padding-bottom: 5px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .s_elem_s {
+            border: 0px solid black;
+            background-color: #A8F8A8;
+            padding-bottom: 5px;
+        }
+
+    	body {
+    		font-family: Montserrat;
+        margin-left: 10px;
+    	}
+      
+
+
+		hr {
+			border-color: #fff;
+			width: 90%;
+		}
+
+	
+		body::after{
+		    position:absolute; 
+		    width:0; 
+		    height:0; 
+		    overflow:hidden; 
+		    z-index:-1;
+		}
+
+        .h-divider{
+            margin-top:5px;
+            margin-bottom:5px;
+            height:1px;
+            width:100%;
+            border-top:1px solid gray;
+            }
+
+		a.list-group-item {
+			color: #555;
+			text-align: right;
+		}
+
+		a.list-group-item:hover {
+			z-index: 2;
+		    color: #fff;
+		    background-color: #007bff;
+		    border-color: #007bff;
+		}
+
+		a.list-group-item.selected {
+          z-index: 2;
+          color: #fff;
+          background-color: #007bff;
+          border-color: #007bff;
+      	}
+
+    
+		  .col-lg-6.text-center {
+		  	padding-top: 100px;
+		  }
+
+		  .extraButton {
+			background: #ffffff;
+			border: 1.5px solid #3676F4; 
+			border-radius: 4px;
+			color: #3676F4;
+			font-family: Arial;
+			font-size:  18 pt;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			display: inline-block;
+			vertical-align: baseline;
+			cursor: pointer;
+			margin-right: 10px;
+			line-height: normal;
+			font-size: 100%;
+			font-weight: 500;
+			padding: 7px 15px;
+			box-shadow: 2px 3px 4px 0 rgba(0,0,0,.25);
+			overflow: visible;
+
+		}
+
+		.extraButton:hover {
+			background: #3676F4;
+			border: 1.5px solid #3676F4; 
+			border-radius: 4px;
+			color: #ffffff;
+			font-family: Arial;
+			font-size: 18 pt;
+		}
+		  
+		 
+
+		  .h4{
+		  	margin-top: 100px;
+		  	font-family: Roboto;
+		  	font-size: 18px;
+		  	color: #333333;
+
+		  }
+
+		  button {
+				background: #F2F2F2;
+				border: 0.5px solid #B7B7B7; 
+				border-radius: 4px;
+				color: #00000;
+				font-family: Roboto;
+				font-size:  18 pt;
+				padding: 5px 10px;
+		  }
+		  p{
+		  	font-family: Roboto;
+			font-size:  14px;
+			color: #333333;
+			margin: 0 0 0;
+		  }
+
+		  .util_label {
+		  	font-size: 18px;
+		  	font-family: "Roboto";
+		  	color: #8C8C8C;
+		  	display: inline-block;
+		  	vertical-align: top;
+		  	padding-left: 5px;
+		  }
+
+		 
+
+		  /*Menu/First Row*/
+		  .bgcolor {
+		  	background-color: #F2F2F2;
+		  	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+		  	
+		  }
+
+		   /* padding */
+
+		  .classWithPad{
+		  	padding-left: 20px;
+			padding-top: 20px;
+			/*width:60%;*/
+			display: inline-block;
+		  }
+		  /* combo box */
+		  select {
+		  		background: #ffffff;
+		  		height: 20px;
+				border: 1px solid #727272; 
+				border-radius: 2px;
+				color: #434343;
+				font-family: Arial;
+				font-size:  14px;
+		  }
+
+		  label {
+
+		    display: inline-block;
+		    color: #434343;
+		    font-family: Arial;
+		    font-weight: normal;
+		  }
+
+		  /* SLider */
+		  input[type=range] {
+		  	-webkit-appearance: none;
+		    width: 97%;
+		    height: 5px;
+		    border-radius: 5px;   
+		    background: #434343;
+		    outline: none;
+		    margin-right: auto;
+		    margin-left: auto;
+
+		    }	
+
+			input[type=range]::-webkit-slider-thumb {
+			    -webkit-appearance: none;
+			    appearance: none;
+			    width: 20px;
+			    height: 20px;
+			    border-radius: 50%;
+			    background: #434343;
+			    cursor: pointer;
+
+			}
+
+			input[type=range]::-moz-range-thumb {
+			    width: 25px;
+			    height: 25px;
+			    border-radius: 50%;
+			    background: #4CAF50;
+			    cursor: pointer;
+			}
+
+			.fixed-top {
+			    position: fixed;
+			    top: 0;
+			    right: 0;
+			    left: 0;
+			    z-index: 1030;
+			}
+
+        
+    </style>
+
+    <!--<script type="text/javascript" src="./static/conv_surveys/conv_survey.js"></script>-->
+
+
+    <script>
+      $( document ).ready(function() {
+	    	console.log( "ready!" );
+
+
+            //Hide spinners / links
+            $('#scrape_spinner').hide();
+            $('#generate_spinner').hide();
+            $('#conv_survey_link').hide();
+
+            //Init tooltips
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+
+            // Instantiate a slider
+            var myEmpathy = $("#sliderEmpathy").slider();
+            var myQAugment = $("#sliderQAugment").slider();
+
+            // For non-getter methods, you can chain together commands
+            myEmpathy.slider('setValue', 5);
+            myQAugment.slider('setValue', 5);
+
+            $("input[name='reactionRepeatUI']").TouchSpin({
+                verticalbuttons: true
+            });
+
+            $("input[name='progressRepeatUI']").TouchSpin({
+                verticalbuttons: true
+            });
+
+            //Survey selection dropdown
+            /*$('#survey_ex').on('click',function() {
+                //alert($(this).val());
+                console.log($(this).val());
+            });*/
+            $('#survey_ex').change(function () {
+                var selectedItem = $('#survey_ex').val();
+                console.log(selectedItem);
+
+                loadSurvey(selectedItem);
+            });
+
+            var selectedItem = $('#survey_ex').val();
+            console.log(selectedItem);
+            loadSurvey(selectedItem);
+                        
+
+            /*$.getJSON("conv_survey.json", function(json) {
+                dialogue = json // this will show the info it in firebug console
+                console.log("LOADED JSON");
+            });*/
+
+            //Give it a name
+            var e = document.getElementById("top_name_tag");
+            if (e) {
+                e.innerHTML = bot_name;
+            }
+
+			var arg_prob_soc = findGetParameter("sociality");
+			if (arg_prob_soc != null) {
+				prob_reaction = arg_prob_soc;
+				console.log("^^^ PROVIDED SOCIALITY SETTING IN URL: "+prob_reaction+" ^^^");
+			}
+
+		
+		  }); //END $( document ).ready
+
+      //Helper fubction to extract GET params from URL
+		function findGetParameter(parameterName) {
+			var result = null,
+				tmp = [];
+			var items = location.search.substr(1).split("&");
+			for (var index = 0; index < items.length; index++) {
+				tmp = items[index].split("=");
+				if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+			}
+			return result;
+		}
+
+    function simulateDialogue() {
+            console.log("Simulating dialogue...");
+            let simulation_container  = document.getElementById("simulation")
+            simulation_container.innerHTML = "";
+            for (eid in dialogue) {
+                //console.log("Checking element: ", eid);
+                let divDial = document.createElement("div");
+                if ('source' in dialogue[eid] && dialogue[eid].source == "augmented") {
+                    divDial.classList.add("s_elem_s");
+                } else {
+                    divDial.classList.add("s_elem_q");
+                }
+                
+                //Origninal text
+                if ("mod_text" in dialogue[eid]) {
+                    full_text = "";
+                    if ("prefix" in dialogue[eid]) {
+                        full_text += "<span class='s_elem_s'>"+dialogue[eid].prefix+"</span> ";
+                    }
+                    full_text += dialogue[eid].mod_text;
+                    divDial.innerHTML = '<span data-toggle="tooltip" data-placement="top" title="Original question: '+dialogue[eid].org_text+'">'+full_text+'</span>';
+                } else {
+                    divDial.textContent = ""+dialogue[eid].text+"";
+                }
+
+                //Framing dropdown
+                if ("framing" in dialogue[eid]) {
+                    let spanFraming = document.createElement("span");
+                    spanFraming.textContent = ""+dialogue[eid].framing+"";
+                    spanFraming.style = "border: 1px solid red; margin-left:5px";
+                    divDial.appendChild(spanFraming);
+                }
+
+
+                simulation_container.appendChild(divDial);
+                
+                //ANSWER
+                let ans_idx = -1;
+                let ans_txt = "<MISSING>";
+                let ans_val = "";
+                let options = [];
+
+                //Yes/No type
+                if (dialogue[eid].type == "Yes/No") {
+                    if ('framing' in dialogue[eid]) {
+                        options.push({"text":"Yes", "value":"Yes", "framing":"pos_answer"})
+                        options.push({"text":"No", "value":"No", "framing":"neg_answer"})
+                    } else {
+                        options.push({"text":"Yes", "value":"Yes"})
+                        options.push({"text":"No", "value":"No"})
+                    }
+
+                    ans_idx = Math.floor(Math.random() * options.length);
+                    ans_txt = options[ans_idx].text;
+                    ans_val = options[ans_idx].value;
+
+                //Options type    
+                } else if (dialogue[eid].type == "Options" || dialogue[eid].type == "Options-multiple") {
+                    ans_idx = Math.floor(Math.random() * dialogue[eid].options.length);
+                    ans_txt = dialogue[eid].options[ans_idx].text;
+                    ans_val = dialogue[eid].options[ans_idx].value;
+
+                    for (opt_id in dialogue[eid].options) {
+                        opt_props = {"text":dialogue[eid].options[opt_id].text, 
+                                    "value":dialogue[eid].options[opt_id].value}
+
+                        if ('framing' in dialogue[eid].options[opt_id]) {
+                            opt_props['framing'] = dialogue[eid].options[opt_id].framing
+                        }
+
+                        options.push(opt_props);
+                    }
+                } else if (dialogue[eid].type == "Input") {
+                    ans_idx = 0;
+                    options.push({"text":"<FREE TEXT INPUT>", "value":"<FREE TEXT INPUT>"})
+                }
+
+                /*divDial = document.createElement("div");
+                divDial.classList.add("s_elem_a");
+                divDial.innerHTML = ""+ans_txt+"";
+                simulation_container.appendChild(divDial);*/
+
+                if (ans_idx != -1) {
+                    divDial = document.createElement("select");
+                    divDial.classList.add("custom-select");
+                    divDial.classList.add("mr-sm-2");
+                    divDial.classList.add("s_elem_a");
+                    divDial.setAttribute("id", "ans_"+eid);
+                    for (opt_id in options) {
+                        //console.log('Option:'+opt_id+" , "+options[opt_id].value);
+                        optItem = document.createElement("option");
+                        optItem.setAttribute("value", options[opt_id].value);
+                        optItem.textContent = options[opt_id].text;
+                        if (opt_id == ans_idx) {
+                            optItem.setAttribute("selected","");
+                        }
+                        //Framing dropdown
+                        if ("framing" in options[opt_id]) {
+                            let spanFraming = document.createElement("span");
+                            spanFraming.textContent = " ["+options[opt_id].framing+"]";
+                            spanFraming.style = "border: 1px solid red; margin-left:5px";
+                            optItem.appendChild(spanFraming);
+                        }
+
+                        divDial.appendChild(optItem);
+                    }
+                    simulation_container.appendChild(divDial);
+                } 
+
+
+                /*<select class="custom-select mr-sm-2" id="survey_ex">
+                <!--<option value="dem_survey" selected>Demographics</option>
+                <option value="health_lit_survey">Health Literacy</option>
+                <option value="work_survey">Workload (NASA TLX)</option>-->
+                {% for s in surveys %}
+                    <option value="{{ s }}">{{ s }}</option>
+                {% endfor %}
+                </select>*/
+
+                //Reaction
+                if ("reactions" in dialogue[eid] && ans_val in dialogue[eid].reactions) {
+                    let react_txt = dialogue[eid].reactions[ans_val];
+                    divDial = document.createElement("div");
+                    divDial.classList.add("s_elem_s");
+                    divDial.innerHTML = ""+react_txt+"";
+                    simulation_container.appendChild(divDial);
+                }
+
+                
+            }
+        }
+
+
+        function scrapeWebsite() {
+            let survey_url = $("#survey_url").val();
+            console.log("Survey url:"+survey_url);
+
+            $('#scrape_spinner').show();
+
+            var request = $.ajax({
+                url: "/scrape_survey",
+                type: "GET",
+                data: {survey_url: survey_url},
+                dataType: "html",
+                async: true, 
+                success : function (msg)
+                {
+                    var obj = JSON.parse(msg);
+
+                    if (obj.status !== "OK") {
+                        console.log("Something went wrong and event did not log: "+obj.message);
+                    } else {
+                        //("Called log event successfully!");
+                        let obj = JSON.parse(msg);
+                        console.log("Survey scrape resp:"+obj);
+                        
+                        //Update survey list
+                        updateSurveyList(obj.survey_file);
+
+                        //$('#survey_ex').append('<option value="'+obj.survey_file+'" selected="">'+obj.survey_file+'</option>');
+                        //$('#survey_ex').selectpicker("refresh");
+                        
+                        //load the just scraped survey
+                        //("Called log event successfully!");
+                        dialogue = obj.survey_data;
+                      
+
+                        $('#scrape_spinner').hide();
+
+                    }
+                }
+            });
+        }
+
+        function updateSurveyList(selected_survey = null) {
+            console.log("Trying to update survey list...");
+            
+            var request = $.ajax({
+                url: "/get_survey_list",
+                type: "GET",
+                data: {},
+                dataType: "html",
+                async: true, 
+                success : function (msg)
+                {
+                    var obj = JSON.parse(msg);
+
+                    if (obj.status !== "OK") {
+                        console.log("Something went wrong and event did not log: "+obj.message);
+                    } else {
+                        //("Called log event successfully!");
+                        let obj = JSON.parse(msg);
+                        console.log("Survey list resp:");
+                        console.log(obj);
+
+                        console.log("Got survey list:");
+                        for (surv in obj.surveys) {
+                            console.log("Survey:"+surv);
+                        }
+                        
+                        var $dropdown = $("#survey_ex");
+                        $dropdown.empty();
+                        $.each(obj.surveys, function() {
+                            let item = $("<option />").val(this).text(this);
+                            if (selected_survey == this) {
+                                console.log('Selected found:'+selected_survey);
+                                item.attr("selected","")
+                            }
+                            
+                            $dropdown.append(item);
+                        });
+
+                        
+                    }
+                }
+            });
+
+        }
+
+        function loadSurvey(survey_file) {
+            console.log("Loading survey: "+survey_file);
+
+            var request = $.ajax({
+                url: "/get_survey",
+                type: "GET",
+                data: {survey_file: survey_file, survey_source: "orig"},
+                dataType: "html",
+                async: true, 
+                success : function (msg)
+                {
+                    var obj = JSON.parse(msg);
+
+                    if (obj.status !== "OK") {
+                        console.log("Something went wrong and event did not log: "+obj.message);
+                    } else {
+                        //("Called log event successfully!");
+                        let obj = JSON.parse(msg);
+                        console.log("Survey load resp:");
+                        console.log(obj);
+                        dialogue = obj.survey_data;
+                        
+                    }
+                }
+            });
+
+            //http://sgiz.mobi/s3/HarborView-Social-Needs-Screener
+        }
+
+        function augmentSurvey() {
+            console.log("Augmenting survey...");
+
+            $('#generate_spinner').show();
+            $('#conv_survey_link').hide();
+
+            //Get original survey file name
+            var selectedItem = $('#survey_ex').val();
+            console.log(selectedItem);
+
+            //Get survey augmentation parameters
+            let introCheck = $("#introCheck").prop("checked");
+            let closingCheck = $("#closingCheck").prop("checked");
+            console.log("Intro checked:"+introCheck);
+            console.log("Closing checked:"+closingCheck);
+
+            let reactionRepeatN = $("#reactionRepeatUI").val();
+            let progressRepeatN = $("#progressRepeatUI").val();
+            console.log("Reaction repeat:"+progressRepeatN);
+            console.log("Progress repeat:"+reactionRepeatN);
+
+            // Get Empathy level
+            let mySlider = $("#sliderEmpathy").slider();
+            var empathyLvl = (mySlider.slider('getValue')/10.0);
+            console.log('Empathy level:'+empathyLvl);
+
+            // Get Question Augmentation level
+            mySlider = $("#sliderQAugment").slider();
+            var qAugmentLvl = (mySlider.slider('getValue')/10.0);
+            console.log('Question augmentation level:'+qAugmentLvl);
+
+            var request = $.ajax({
+                url: "/augment_survey",
+                type: "POST",
+                data: { //survey_content: JSON.stringify(dialogue), 
+                        survey_file: selectedItem,
+                        empathyLevel: empathyLvl,
+                        qAugmentLevel: qAugmentLvl,
+                        isOpening: introCheck, 
+                        isClosing: closingCheck,
+                        progressRepeatN: progressRepeatN,
+                        reactionRepeatN: reactionRepeatN},
+                dataType: "html",
+                async: true, 
+                success : function (msg)
+                {
+                    var obj = JSON.parse(msg);
+
+                    $('#generate_spinner').hide();
+                   
+
+                    if (obj.status !== "OK") {
+                        console.log("Something went wrong and event did not log: "+obj.message);
+                    } else {
+                        
+                        //("Called log event successfully!");
+                        let obj = JSON.parse(msg);
+                        console.log("Survey load resp:");
+                        console.log(obj);
+
+                        dialogue = obj.survey_data;
+                        
+                        $('#conv_survey_link').show();
+                        //Link to generated conv survey
+                        var conv_survey_link_elem = document.getElementById("conv_survey_link");
+                        if (conv_survey_link_elem) {
+                            conv_survey_link_elem.innerHTML = "<a target='blank_' href='http://127.0.0.1:5000/bot?file="+obj.conv_survey_file+"&bot_name="+obj.bot_name+"'>"+obj.conv_survey_file+"</a>";
+                        }
+
+                        //Domain of the survey
+                        $("#survey_domain").val(obj.domain)
+
+                        //Name of the bot
+                        $("#bot_name").val(obj.bot_name)
+
+  
+                    }
+                }
+            });
+
+        }
+
+    </script>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      
+        <!-- Page Content  -->
+        <div id="content" >
+
+                <div class="row">
+                    <div class="col text-left">
+                        <h1 class="display-5">1. Select survey & conversion settings</h1>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-3 bg-light text-dark">
+                                <!--<div class="form-row align-items-center">
+                                <div class="col-auto my-1">-->
+                                    
+                                    <label class="mr-sm-2 text-primary" for="survey_ex">Survey example</label>
+                                    <select class="custom-select mr-sm-2" id="survey_ex">
+                                    {% for s in surveys %}
+                                        <option value="{{ s }}">{{ s }}</option>
+                                    {% endfor %}
+                                    </select>
+                                    <input id="survey_url" class="form-control form-control-sm" type="text" placeholder="Survey URL">
+                                    <button type="button" class="btn btn-primary" onClick="scrapeWebsite();">Scrape web survey</button>
+                                    <div id="scrape_spinner" class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                   
+                                <!--</div>
+                                </div>-->
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="mr-sm-2 text-primary">Conversation properties</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="introCheck" checked>
+                                        <label class="form-check-label" for="introCheck">
+                                            Add conversational introduction
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="closingCheck" checked>
+                                        <label class="form-check-label" for="closingCheck">
+                                            Add conversational closing
+                                        </label>
+                                    </div>
+                                    <div class="h-divider"></div>
+                                    <p>
+                                        <label for="sliderEmpathy" class="mb-0">Reaction empathy level</label><br />
+                                        <input type="range" class="custom-range" id="sliderEmpathy">
+                                    </p>
+                                    <p>
+                                        <label for="sliderQAugment" class="mb-0">Survey question augmentation level</label> <br />
+                                        <input type="range" class="custom-range" id="sliderQAugment">
+                                    </p>
+                                    <button type="button" class="btn btn-primary" onClick="augmentSurvey();">Generate</button>
+                                    <div id="generate_spinner" class="spinner-border text-primary"></div>
+                                    <span id="conv_survey_link">Survey link</span>
+                                </div>
+                                <div class="form-group col-md-5">
+
+                                    
+                                    <label for="reactionRepeatUI">Reaction every #</label>
+                                    <div class="align-items-left" style="width:150px">
+                                        <input id="reactionRepeatUI" type="text" value="2" name="reactionRepeatUI">
+                                    </div>
+
+                                    <label for="progressRepeatUI">Progress every #</label>
+                                    <div class="align-items-left" style="width:150px">
+                                        <input id="progressRepeatUI" type="text" value="5" name="progressRepeatUI">
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                        <!--<div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Survey example
+                            </button>
+                            <div class="dropdown-menu" id="dataset_list" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" value="aesop_small">Demographics</a>
+                                <a class="dropdown-item" href="#" value="aesop_large">Health Literacy</a>
+                                <a class="dropdown-item" href="#" value="trump_un">NASA TLX (workload)</a>
+                            </div>
+                        </div> --> 
+                    </div>
+                </div> <!-- /ROW -->
+		      <!--- Remaining elements -->
+		      <div class="row">
+		        <div class="col-lg-3">
+		        </div>
+		        <div class="col-lg-6 text-center pt-0">
+		          			        </div>
+		        <div class="col-lg-3">
+		        </div>
+		      </div> <!-- /ROW -->
+    
+            <div class="row">
+                <div class="col text-left">
+                    <h1 class="display-5">2. Refine the conversion</h1>
+                    <div class="col-lg-12"> 
+                        <div class="d-flex flex-row bd-highlight mb-3">
+                            <div class="p-2 bd-highlight">
+                                <button id="simpulate_btn" style="display:block;" type="button" onclick="return simulateDialogue();">Simulate dialogue</button>	
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <input id="survey_domain" class="form-control form-control-sm" type="text" placeholder="Survey domain">
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <input id="bot_name" class="form-control form-control-sm" type="text" placeholder="Bot name">
+                            </div>
+                        </div>
+
+                        <div id="simulation" style="border: 1px solid lightsteelblue; max-height: 500px; max-width: 1000px; overflow-y:auto">
+                        </div>
+                    </div>  
+                </div>     
+               
+            </div> <!-- /ROW -->
+        </div> <!-- /content -->
+    </div>
+
+    <div class="overlay"></div>
+
+
+
+    <!-- Popper.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.2.5/jquery.bootstrap-touchspin.min.js" crossorigin="anonymous"></script>
+
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>  
+
+    
+    
+
+  </body>
+</html>
