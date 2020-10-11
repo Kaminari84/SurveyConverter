@@ -154,7 +154,10 @@ setup_app(app)
 
 @app.route('/hello')
 def hello_world():
-	return 'Hello, Survey Converter!'
+	source = request.args.get('source')
+
+	logging.info("Hello server route called, source"+str(source))
+	return 'Hello, Survey Converter from:'+str(source)
 
 @app.route('/')
 def conv_survey():
@@ -171,7 +174,7 @@ def augment_survey():
 	logging.info("Survey file:"+str(survey_file))
 
 	survey_questions = ""
-	with open(os.path.join(app.root_path, 'static/surveys',survey_file), 'r') as f:
+	with open(os.path.join(app.root_path, 'static/surveys',survey_file), 'r', encoding='utf-8') as f:
 		survey_questions = json.load(f)
 
 	# Augmentation params
@@ -332,22 +335,92 @@ def augment_survey():
 						question['org_text'] = question['text']
 						question['prefix'] = prefix
 						question['mod_text'] = text
-						question['text'] = prefix+" "+text  
+						question['text'] = prefix+" "+text
 
+			#### Progress ####
+			if progress_repeat > 0 and i % progress_repeat == (progress_repeat-1):
+				pos = round((qn*100)//s_len)
+				progress_text = current_app.reactionMgrs['progress_list'].getLeastFreqChoice()  #random.choice(progress_list)
+				if (pos > 40 and pos < 60):
+					progress_text = current_app.reactionMgrs['progress_middle_list'].getLeastFreqChoice() #random.choice(progress_middle_list)
+				elif (pos > 85):
+					progress_text = current_app.reactionMgrs['progress_end_list'].getLeastFreqChoice() #random.choice(progress_end_list)
 
-			#-----------OTHER AUGMENTATIONS GO HERE--------------------
+				block = {}
+				block['text'] = progress_text.replace("{d}", str(qn)).replace("{n}",str(s_len)).replace("{l}", str(s_len-qn)).replace("{percent}",str(round(qn*10//s_len*10)))
+				block['type'] = "Skip"
+				block['source'] = "augmented"
 
+				survey_questions.insert(i, block)
+
+				next(itr_questions, None)
+
+				i+=1
+
+			i += 1
+			qn += 1
+
+		#### Add beginning ####
+		if (isOpening):
+			logging.info("Adding OPENING block")
+			block = {}
+			close_text = current_app.reactionMgrs['intro_list'].getLeastFreqChoice() #random.choice(intro_list)
+			block['text'] = close_text.replace("{name}",name).replace("{topic}",topic)
+			block['type'] = "Skip"
+			block['source'] = "augmented"
+
+			survey_questions.insert(0, block)
+
+		#### Add ending ####
+		if (isClosing):
+			logging.info("Adding CLOSING block")
+			block = {}
+			close_text = current_app.reactionMgrs['close_list'].getLeastFreqChoice() #random.choice(close_list)
+			block['text'] = close_text
+			block['type'] = "End"
+			block['source'] = "augmented"
+
+			survey_questions.append(block)
+
+		#-----------OTHER AUGMENTATIONS GO HERE--------------------
 
 
 	#Save to json file
 	conv_survey_file = survey_file.replace('.json','_conv.json')
 	logging.info("Saving conversational survey file:"+str(conv_survey_file))
 
-	with open(os.path.join(app.root_path, 'static/conv_surveys', conv_survey_file), 'w') as f:
+	with open(os.path.join(app.root_path, 'static/conv_surveys', conv_survey_file), 'w', encoding='utf-8') as f:
 		str_json = json.dumps(survey_questions, indent=4, sort_keys=True)
 		#str_json = str_json.replace("'","\\'")
 		#str_json = str_json.replace("\'","\\'")
 		print(str_json, file=f)
+
+	#Save in HarborBot language format
+	clean_survey_questions = []
+	for old_q in survey_questions:
+		new_q = {}
+		new_q['text'] = { 'en': old_q['text'] }
+		new_q['type'] = old_q['type']
+
+		if old_q['type'] == 'Options' or old_q['type'] == 'Options-multiple':
+			new_q['options'] = { 'en': [] }
+			for option in old_q['options']:
+				new_q['options']['en'].append({
+					'text': option['text'],
+					'value': option['value']
+				})
+
+		if 'reactions' in old_q:
+			new_q['reactions'] = {}
+			for reaction in old_q['reactions']:
+				new_q['reactions'][reaction] = { 'en': old_q['reactions'][reaction] }
+
+		clean_survey_questions.append(new_q)
+
+	with open(os.path.join(app.root_path, 'static/clean_conv_surveys', conv_survey_file), 'w', encoding='utf-8') as f:
+		str_json = json.dumps(clean_survey_questions, indent=4, sort_keys=True)
+		print(str_json, file=f)
+
 
 	cov_survey = survey_questions
 	json_resp = json.dumps({'status': 'OK', 'message':'',
@@ -474,7 +547,7 @@ def get_survey():
 			survey_path = os.path.join(app.root_path,'static/conv_surveys')
 
 		survey_dict = ""
-		with open(survey_path+"/"+survey_file, 'r') as f:
+		with open(survey_path+"/"+survey_file, 'r', encoding='utf-8') as f:
 			survey_dict = json.load(f)
 
 		json_resp = json.dumps({'status': 'OK', 'message':'', 'survey_data':survey_dict})
